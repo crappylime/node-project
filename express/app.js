@@ -33,4 +33,4 @@ app.get('/',
     }
 )
 
-app.listen(3000, () => console.log('works'))
+module.exports = app;
