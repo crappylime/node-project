@@ -29,3 +29,15 @@ export class GetCommentResponseDto {
     @ApiModelProperty()
     data: CommentModel;
 }
+
+export class PostCommentsRequestDto {
+    @ApiModelProperty()
+    comment: CommentModel;
+}
+
+export class PostCommentsResponseDto {
+    @ApiModelProperty()
+    total: number;
+    @ApiModelProperty()
+    data: GetCommentResponseDto;
+}

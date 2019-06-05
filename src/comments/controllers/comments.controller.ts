@@ -1,6 +1,6 @@
 import { Body, Controller, Get, NotFoundException, Param, Post, Query } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
-import { GetCommentResponseDto, GetCommentsRequestDto, GetCommentsResponseDto } from '../dto';
+import { GetCommentResponseDto, GetCommentsRequestDto, GetCommentsResponseDto, PostCommentsRequestDto, PostCommentsResponseDto } from '../dto';
 import { CommentModel } from './../models/models';
 
 @Controller('comments')
@@ -53,7 +53,7 @@ export class CommentsController {
 
   @Get(':id')
   @ApiOkResponse({ type: GetCommentResponseDto })
-  getComment(@Param('id') id: string): GetCommentResponseDto {
+  getComment(@Param('id') id): GetCommentResponseDto {
 
     const comment = this.comments.find(c => c.id === parseInt(id, 10));
 
@@ -68,17 +68,17 @@ export class CommentsController {
   }
 
   @Post()
-  @ApiCreatedResponse({ type: GetCommentResponseDto })
-  postComment(@Body() data: CommentModel): GetCommentResponseDto {
+  @ApiCreatedResponse({ type: PostCommentsResponseDto })
+  postComment(@Body() data: PostCommentsRequestDto): PostCommentsResponseDto {
     const comment = {
       name: '',
-      ...data,
+      ...data.comment,
       id: this.comments.length + 1,
     };
     this.comments.unshift(comment);
     return {
       total: this.comments.length,
-      data,
+      data: this.getComment(comment.id),
     }
   }
 }
