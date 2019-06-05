@@ -16,3 +16,8 @@ export class UserModel {
     @ApiModelPropertyOptional({ enum: UserRole, isArray: true })
     roles?: UserRole[];
 }
+
+export class TokenPayloadModel {
+    @ApiModelProperty()
+    user: UserModel;
+}
