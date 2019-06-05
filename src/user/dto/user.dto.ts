@@ -2,11 +2,17 @@ import { ApiModelProperty } from '@nestjs/swagger';
 import { UserModel } from '../models';
 
 export class UserRegisterRequestDto {
-    @ApiModelProperty()
+    @ApiModelProperty({
+        example: 'User123',
+    })
     name: string;
-    @ApiModelProperty()
+    @ApiModelProperty({
+        example: 'user@example.com',
+    })
     email: string;
-    @ApiModelProperty()
+    @ApiModelProperty({
+        example: 'password123',
+    })
     password: string;
 }
 
