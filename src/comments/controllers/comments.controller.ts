@@ -1,7 +1,6 @@
-import { Body, Controller, Get, NotFoundException, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Query } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { GetCommentResponseDto, GetCommentsRequestDto, GetCommentsResponseDto, PostCommentsRequestDto, PostCommentsResponseDto } from '../dto';
-import { CommentModel } from './../models/models';
 
 @Controller('comments')
 export class CommentsController {
@@ -81,4 +80,18 @@ export class CommentsController {
       data: this.getComment(comment.id),
     }
   }
+
+  @Delete(':id')
+  deleteComments(@Param('id') id: string): DeleteResponse {
+    this.comments = this.comments.filter(c => c.id !== parseInt(id, 10));
+    return {
+      total: this.comments.length,
+      id,
+    }
+  }
+}
+
+export interface DeleteResponse {
+  total: number;
+  id: string;
 }
