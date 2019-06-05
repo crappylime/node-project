@@ -1,5 +1,6 @@
-import { Controller, Get, NotFoundException, Param, Query } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, Post, Query } from '@nestjs/common';
 import { GetCommentResponseDto, GetCommentsRequestDto, GetCommentsResponseDto } from '../dto';
+import { CommentModel } from './../models/models';
 
 @Controller('comments')
 export class CommentsController {
@@ -61,5 +62,19 @@ export class CommentsController {
       total: this.comments.length,
       data: comment,
     };
+  }
+
+  @Post()
+  postComment(@Body() data: CommentModel): GetCommentResponseDto {
+    const comment = {
+      name: '',
+      ...data,
+      id: this.comments.length + 1,
+    };
+    this.comments.unshift(comment);
+    return {
+      total: this.comments.length,
+      data,
+    }
   }
 }
