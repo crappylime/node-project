@@ -17,6 +17,7 @@ async function bootstrap() {
     .setTitle('Nest API Example')
     .setDescription('Przykładowy projekt w Node.js i Typescript')
     .setVersion('1.0')
+    .setBasePath('api')
     .addTag('user')
     // .addBearerAuth(config.TOKEN_HEADER_NAME, 'header')
     .build();
