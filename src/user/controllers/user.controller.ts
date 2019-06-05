@@ -1,5 +1,6 @@
 import { Body, Controller, Get, InternalServerErrorException, Post, Request } from '@nestjs/common';
 import { ApiCreatedResponse } from '@nestjs/swagger';
+import { User } from '../decorators/user.decorator';
 import { UserRegisterRequestDto, UserRegisterResponseDto } from '../dto';
 import { UserService } from '../services/user.service';
 
@@ -22,7 +23,7 @@ export class UserController {
     }
 
     @Get()
-    getUser(@Request() req) {
-        return req.tokenPayload;
+    getUser(@User() user) {
+        return user;
     }
 }
