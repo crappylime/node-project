@@ -1,5 +1,5 @@
-import { Controller, Get, Render, Query, Param, NotFoundException, HttpStatus } from '@nestjs/common';
-import { GetCommentsRequestDto, GetCommentsResponseDto, GetCommentResponseDto } from '../../dto/comment.dto';
+import { Controller, Get, NotFoundException, Param, Query } from '@nestjs/common';
+import { GetCommentResponseDto, GetCommentsRequestDto, GetCommentsResponseDto } from '../../dto/comment.dto';
 
 @Controller('comments')
 export class CommentsController {
