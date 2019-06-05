@@ -1,5 +1,7 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { UserController } from './controllers/user.controller';
+import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { UserMiddleware } from './middlewares/user.middleware';
 import { UserService } from './services/user.service';
 
 @Module({
@@ -7,4 +9,10 @@ import { UserService } from './services/user.service';
   providers: [UserService],
   exports: [UserService],
 })
-export class UserModule { }
+export class UserModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware, UserMiddleware)
+      .forRoutes(UserController);
+  }
+}
