@@ -1,4 +1,4 @@
-import { CommentModel } from './../models';
+import { CommentModel } from '../models';
 
 export class GetCommentsRequestDto {
     search: string;
@@ -9,6 +9,7 @@ export class GetCommentsRequestDto {
 export class GetCommentsResponseDto {
     pageIndex: number;
     pageSize: number;
+    total: number;
     data: CommentModel[];
     query: GetCommentsRequestDto;
 }

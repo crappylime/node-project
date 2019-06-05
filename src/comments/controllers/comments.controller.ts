@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Render, Query, Param, NotFoundException, HttpStatus } from '@nestjs/common';
+import { GetCommentsRequestDto, GetCommentsResponseDto, GetCommentResponseDto } from '../../dto/comment.dto';
 
 @Controller('comments')
 export class CommentsController {
@@ -26,10 +27,39 @@ export class CommentsController {
   ].reverse();
 
   @Get()
-  async getComments() {
+  getComments(@Query() query: GetCommentsRequestDto): GetCommentsResponseDto {
+
+    let comments = this.comments;
+
+    if (query.search) {
+      const queryReg = new RegExp(query.search, 'i');
+      comments = this.comments.filter(row => row.name.search(queryReg) >= 0);
+    }
+    const pageIndex = query.pageIndex || 0;
+    const pageSize = query.pageSize || 5;
+    const data = comments.slice(pageIndex * pageSize).slice(0, pageSize);
+
+    return {
+      pageIndex,
+      pageSize,
+      total: comments.length,
+      data,
+      query,
+    };
+  }
+
+  @Get(':id')
+  getComment(@Param('id') id: string): GetCommentResponseDto {
+
+    const comment = this.comments.find(c => c.id === parseInt(id, 10));
+
+    if (!comment) {
+      throw new NotFoundException('Contact not found');
+    }
+
     return {
       total: this.comments.length,
-      data: this.comments,
+      data: comment,
     };
   }
 }
