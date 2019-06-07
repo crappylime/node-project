@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Post, UploadedFile, UseInterceptors, Get } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiImplicitFile } from '@nestjs/swagger';
 import { PhotosService } from '../services';
@@ -15,5 +15,10 @@ export class PhotosController {
     async uploadFile(@UploadedFile() file, @Body() body) {
         const avatar = await this.photosService.create(file);
         return { avatar, file, body };
+    }
+
+    @Get()
+    GetPhotos() {
+        return this.photosService.findAll();
     }
 }
