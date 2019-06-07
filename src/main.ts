@@ -1,16 +1,17 @@
 import { NestFactory } from '@nestjs/core';
-import { ExpressAdapter } from '@nestjs/platform-express';
+import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
+import { join } from 'path';
+import { app as expressApp } from '../express/app';
 import { AppModule } from './app.module';
 
-import { app as expressApp } from '../express/app';
-
 async function bootstrap() {
-  const app = await NestFactory.create(
+  const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
     new ExpressAdapter(expressApp),
   );
+  app.useStaticAssets(join(__dirname, '..', 'assets'));
   app.setGlobalPrefix('api');
 
   const options = new DocumentBuilder()
